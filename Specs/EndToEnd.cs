@@ -43,6 +43,22 @@ namespace Specs
                 .With.Message.EqualTo("West"));
         }
 
+        [Test]
+        public void OutOfBoundsNorth()
+        {
+            var inputFile = "OutOfBoundsNorth.txt";
+            Assert.That(() => RunRover(inputFile), Throws.InstanceOf<RoverOutOfBoundsException>()
+                .With.Message.EqualTo("North"));
+        }
+
+        [Test]
+        public void OutOfBoundsSouth()
+        {
+            var inputFile = "OutOfBoundsSouth.txt";
+            Assert.That(() => RunRover(inputFile), Throws.InstanceOf<RoverOutOfBoundsException>()
+                .With.Message.EqualTo("South"));
+        }
+
         private string RunRover(string inputFile)
         {
             string[] fileContents = File.ReadAllLines(inputFile);
@@ -51,6 +67,7 @@ namespace Specs
                 .Split(' ')
                 .ToArray();
             int maxX = int.Parse(zoneSizeContents[0]);
+            int maxY = int.Parse(zoneSizeContents[1]);
 
             string[] currentStateContents = fileContents[1]
                 .Split(' ')
@@ -102,6 +119,7 @@ namespace Specs
                         switch (currentDirection)
                         {
                             case "N":
+                                if (currentY == maxY - 1) throw new RoverOutOfBoundsException("North");
                                 currentY++;
                                 break;
                             case "E":
@@ -109,6 +127,7 @@ namespace Specs
                                 currentX++;
                                 break;
                             case "S":
+                                if (currentY == 0) throw new RoverOutOfBoundsException("South");
                                 currentY--;
                                 break;
                             case "W":

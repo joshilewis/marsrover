@@ -39,8 +39,26 @@ namespace Specs
                 .With.Message.EqualTo(message));
         }
 
+        private readonly Dictionary<string, string> rMapping = new Dictionary<string, string>()
+        {
+            { "N", "E" },
+            { "E", "S" },
+            { "S", "W" },
+            { "W", "N" },
+        };
+
+        private readonly Dictionary<string, string> lMapping = new Dictionary<string, string>()
+        {
+            { "N", "W" },
+            { "E", "N" },
+            { "S", "E" },
+            { "W", "S" },
+        };
+
         private string RunRover(string inputFile)
         {
+            
+
             string[] fileContents = File.ReadAllLines(inputFile);
 
             string[] zoneSizeContents = fileContents[0]
@@ -64,38 +82,10 @@ namespace Specs
                 {
                     default: throw new ArgumentException("Invalid command: " + command);
                     case 'R':
-                        switch (currentDirection)
-                        {
-                            case "N":
-                                currentDirection = "E";
-                                break;
-                            case "E":
-                                currentDirection = "S";
-                                break;
-                            case "S":
-                                currentDirection = "W";
-                                break;
-                            case "W":
-                                currentDirection = "N";
-                                break;
-                        }
+                        currentDirection = rMapping[currentDirection];
                         break;
                     case 'L':
-                        switch (currentDirection)
-                        {
-                            case "N":
-                                currentDirection = "W";
-                                break;
-                            case "E":
-                                currentDirection = "N";
-                                break;
-                            case "S":
-                                currentDirection = "E";
-                                break;
-                            case "W":
-                                currentDirection = "S";
-                                break;
-                        }
+                        currentDirection = lMapping[currentDirection];
                         break;
                     case 'M':
                         switch (currentDirection)

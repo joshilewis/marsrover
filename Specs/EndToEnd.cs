@@ -28,16 +28,22 @@ namespace Specs
         }
 
         [Test]
-        public void OutOfBoundsX()
+        public void OutOfBoundsEast()
         {
-            var inputFile = "OutOfBoundsX.txt";
-            Assert.That(() => RunRover(inputFile), Throws.InstanceOf<RoverOutOfBoundsException>());
+            var inputFile = "OutOfBoundsEast.txt";
+            Assert.That(() => RunRover(inputFile), Throws.InstanceOf<RoverOutOfBoundsException>()
+                .With.Message.EqualTo("East"));
         }
 
 
         private string RunRover(string inputFile)
         {
             string[] fileContents = File.ReadAllLines(inputFile);
+
+            string[] zoneSizeContents = fileContents[0]
+                .Split(' ')
+                .ToArray();
+            int maxX = int.Parse(zoneSizeContents[0]);
 
             string[] currentStateContents = fileContents[1]
                 .Split(' ')
@@ -101,11 +107,20 @@ namespace Specs
                                 currentX--;
                                 break;
                         }
+
                         break;
                 }
             }
 
             return $"{currentX} {currentY} {currentDirection}";
+        }
+    }
+
+    public class RoverOutOfBoundsException : Exception
+    {
+        public RoverOutOfBoundsException(string message)
+            : base(message)
+        {
         }
     }
 }

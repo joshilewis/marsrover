@@ -27,6 +27,14 @@ namespace Specs
             Assert.That(() => RunRover(inputFile), Throws.InstanceOf<FileNotFoundException>());
         }
 
+        [Test]
+        public void OutOfBoundsX()
+        {
+            var inputFile = "OutOfBoundsX.txt";
+            Assert.That(() => RunRover(inputFile), Throws.InstanceOf<RoverOutOfBoundsException>());
+        }
+
+
         private string RunRover(string inputFile)
         {
             string[] fileContents = File.ReadAllLines(inputFile);

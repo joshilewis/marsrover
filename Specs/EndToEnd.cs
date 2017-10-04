@@ -35,6 +35,13 @@ namespace Specs
                 .With.Message.EqualTo("East"));
         }
 
+        [Test]
+        public void OutOfBoundsWest()
+        {
+            var inputFile = "OutOfBoundsWest.txt";
+            Assert.That(() => RunRover(inputFile), Throws.InstanceOf<RoverOutOfBoundsException>()
+                .With.Message.EqualTo("West"));
+        }
 
         private string RunRover(string inputFile)
         {
@@ -105,6 +112,7 @@ namespace Specs
                                 currentY--;
                                 break;
                             case "W":
+                                if (currentX == 0) throw new RoverOutOfBoundsException("West");
                                 currentX--;
                                 break;
                         }

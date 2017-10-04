@@ -32,6 +32,7 @@ namespace Specs
         [TestCase("OutOfBoundsNorth.txt", typeof(RoverOutOfBoundsException), "North", TestName = "OutOfBoundsNorth")]
         [TestCase("OutOfBoundsSouth.txt", typeof(RoverOutOfBoundsException), "South", TestName = "OutOfBoundsSouth")]
         [TestCase("InvalidStartingDirection.txt", typeof(ArgumentException), "Invalid starting direction: X", TestName = "InvalidStartingDirection")]
+        [TestCase("InvalidCommand.txt", typeof(ArgumentException), "Invalid command: X", TestName = "InvalidCommand")]
         public void OutOfBounds(string inputFile, Type exceptionType, string message)
         {
             Assert.That(() => RunRover(inputFile), Throws.InstanceOf(exceptionType)
@@ -61,6 +62,7 @@ namespace Specs
             {
                 switch (command)
                 {
+                    default: throw new ArgumentException("Invalid command: " + command);
                     case 'R':
                         switch (currentDirection)
                         {

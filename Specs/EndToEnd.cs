@@ -98,6 +98,7 @@ namespace Specs
                                 currentY++;
                                 break;
                             case "E":
+                                if (currentX == maxX - 1) throw new RoverOutOfBoundsException("East");
                                 currentX++;
                                 break;
                             case "S":

@@ -27,37 +27,16 @@ namespace Specs
             Assert.That(() => RunRover(inputFile), Throws.InstanceOf<FileNotFoundException>());
         }
 
-        [Test]
-        public void OutOfBoundsEast()
+        [TestCase("OutOfBoundsEast.txt", "East", TestName = "OutOfBoundsEast")]
+        [TestCase("OutOfBoundsWest.txt", "West", TestName = "OutOfBoundsWest")]
+        [TestCase("OutOfBoundsNorth.txt", "North", TestName = "OutOfBoundsNorth")]
+        [TestCase("OutOfBoundsSouth.txt", "South", TestName = "OutOfBoundsSouth")]
+        public void OutOfBounds(string inputFile, string message)
         {
-            var inputFile = "OutOfBoundsEast.txt";
             Assert.That(() => RunRover(inputFile), Throws.InstanceOf<RoverOutOfBoundsException>()
-                .With.Message.EqualTo("East"));
+                .With.Message.EqualTo(message));
         }
 
-        [Test]
-        public void OutOfBoundsWest()
-        {
-            var inputFile = "OutOfBoundsWest.txt";
-            Assert.That(() => RunRover(inputFile), Throws.InstanceOf<RoverOutOfBoundsException>()
-                .With.Message.EqualTo("West"));
-        }
-
-        [Test]
-        public void OutOfBoundsNorth()
-        {
-            var inputFile = "OutOfBoundsNorth.txt";
-            Assert.That(() => RunRover(inputFile), Throws.InstanceOf<RoverOutOfBoundsException>()
-                .With.Message.EqualTo("North"));
-        }
-
-        [Test]
-        public void OutOfBoundsSouth()
-        {
-            var inputFile = "OutOfBoundsSouth.txt";
-            Assert.That(() => RunRover(inputFile), Throws.InstanceOf<RoverOutOfBoundsException>()
-                .With.Message.EqualTo("South"));
-        }
 
         private string RunRover(string inputFile)
         {

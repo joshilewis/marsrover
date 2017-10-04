@@ -27,10 +27,10 @@ namespace Specs
             Assert.That(() => RunRover(inputFile), Throws.InstanceOf<FileNotFoundException>());
         }
 
-        [TestCase("OutOfBoundsEast.txt", typeof(RoverOutOfBoundsException), "East", TestName = "OutOfBoundsEast")]
-        [TestCase("OutOfBoundsWest.txt", typeof(RoverOutOfBoundsException), "West", TestName = "OutOfBoundsWest")]
-        [TestCase("OutOfBoundsNorth.txt", typeof(RoverOutOfBoundsException), "North", TestName = "OutOfBoundsNorth")]
-        [TestCase("OutOfBoundsSouth.txt", typeof(RoverOutOfBoundsException), "South", TestName = "OutOfBoundsSouth")]
+        [TestCase("MoveEastOfBounds.txt", typeof(RoverOutOfBoundsException), "East", TestName = "MoveEastOfBounds")]
+        [TestCase("MoveWestOfBounds.txt", typeof(RoverOutOfBoundsException), "West", TestName = "MoveWestOfBounds")]
+        [TestCase("MoveNorthOfBounds.txt", typeof(RoverOutOfBoundsException), "North", TestName = "MoveNorthOfBounds")]
+        [TestCase("MoveSouthOfBounds.txt", typeof(RoverOutOfBoundsException), "South", TestName = "MoveSouthOfBounds")]
         [TestCase("InvalidStartingDirection.txt", typeof(ArgumentException), "Invalid starting direction: X", TestName = "InvalidStartingDirection")]
         [TestCase("InvalidCommand.txt", typeof(ArgumentException), "Invalid command: X", TestName = "InvalidCommand")]
         [TestCase("StartingEastOfBounds.txt", typeof(RoverOutOfBoundsException), "East", TestName = "StartingEastOfBounds")]

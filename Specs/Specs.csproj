@@ -51,19 +51,25 @@
     <Content Include="InvalidStartingDirection.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="OutOfBoundsSouth.txt">
+    <Content Include="MoveSouthOfBounds.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="OutOfBoundsNorth.txt">
+    <Content Include="MoveNorthOfBounds.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="OutOfBoundsWest.txt">
+    <Content Include="MoveWestOfBounds.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="OutOfBoundsEast.txt">
+    <Content Include="MoveEastOfBounds.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="InvalidCommand.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StartingNorthOfBounds.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StartingEastOfBounds.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="RealWorld1.txt">

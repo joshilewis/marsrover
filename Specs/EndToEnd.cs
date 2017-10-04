@@ -27,16 +27,16 @@ namespace Specs
             Assert.That(() => RunRover(inputFile), Throws.InstanceOf<FileNotFoundException>());
         }
 
-        [TestCase("OutOfBoundsEast.txt", "East", TestName = "OutOfBoundsEast")]
-        [TestCase("OutOfBoundsWest.txt", "West", TestName = "OutOfBoundsWest")]
-        [TestCase("OutOfBoundsNorth.txt", "North", TestName = "OutOfBoundsNorth")]
-        [TestCase("OutOfBoundsSouth.txt", "South", TestName = "OutOfBoundsSouth")]
-        public void OutOfBounds(string inputFile, string message)
+        [TestCase("OutOfBoundsEast.txt", typeof(RoverOutOfBoundsException), "East", TestName = "OutOfBoundsEast")]
+        [TestCase("OutOfBoundsWest.txt", typeof(RoverOutOfBoundsException), "West", TestName = "OutOfBoundsWest")]
+        [TestCase("OutOfBoundsNorth.txt", typeof(RoverOutOfBoundsException), "North", TestName = "OutOfBoundsNorth")]
+        [TestCase("OutOfBoundsSouth.txt", typeof(RoverOutOfBoundsException), "South", TestName = "OutOfBoundsSouth")]
+        [TestCase("InvalidStartingDirection.txt", typeof(ArgumentException), "Invalid starting direction: X", TestName = "InvalidStartingDirection")]
+        public void OutOfBounds(string inputFile, Type exceptionType, string message)
         {
-            Assert.That(() => RunRover(inputFile), Throws.InstanceOf<RoverOutOfBoundsException>()
+            Assert.That(() => RunRover(inputFile), Throws.InstanceOf(exceptionType)
                 .With.Message.EqualTo(message));
         }
-
 
         private string RunRover(string inputFile)
         {
@@ -55,7 +55,8 @@ namespace Specs
             int currentX = int.Parse(currentStateContents[0]);
             int currentY = int.Parse(currentStateContents[1]);
             string currentDirection = currentStateContents[2];
-
+            if (!new[] { "N", "E", "S", "W" }.Contains(currentDirection))
+                throw new ArgumentException("Invalid starting direction: " + currentDirection);
             foreach (char command in fileContents[2])
             {
                 switch (command)

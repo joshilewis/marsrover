@@ -35,6 +35,8 @@ namespace Specs
         [TestCase("InvalidCommand.txt", typeof(ArgumentException), "Invalid command: X", TestName = "InvalidCommand")]
         [TestCase("StartingEastOfBounds.txt", typeof(RoverOutOfBoundsException), "East", TestName = "StartingEastOfBounds")]
         [TestCase("StartingNorthOfBounds.txt", typeof(RoverOutOfBoundsException), "North", TestName = "StartingNorthOfBounds")]
+        [TestCase("NegativeStartingX.txt", typeof(ArgumentException), "Negative starting X", TestName = "NegativeStartingX")]
+        [TestCase("NegativeStartingY.txt", typeof(ArgumentException), "Negative starting Y", TestName = "NegativeStartingY")]
         public void OutOfBounds(string inputFile, Type exceptionType, string message)
         {
             Assert.That(() => RunRover(inputFile), Throws.InstanceOf(exceptionType)
@@ -74,8 +76,10 @@ namespace Specs
                 .ToArray();
 
             int currentX = int.Parse(currentStateContents[0]);
-            int currentY = int.Parse(currentStateContents[1]);
+            if (currentX < 0) throw new ArgumentException("Negative starting X");
             if (currentX == maxX) throw new RoverOutOfBoundsException("East");
+            int currentY = int.Parse(currentStateContents[1]);
+            if (currentY < 0) throw new ArgumentException("Negative starting Y");
             if (currentY == maxY) throw new RoverOutOfBoundsException("North");
             string currentDirection = currentStateContents[2];
             if (!new[] { "N", "E", "S", "W" }.Contains(currentDirection))

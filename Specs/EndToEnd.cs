@@ -20,6 +20,13 @@ namespace Specs
             Assert.That(RunRover(inputFile), Is.EqualTo(expected));
         }
 
+        [Test]
+        public void FileDoesntExist()
+        {
+            var inputFile = "this file doesn't exist.txt";
+            Assert.That(() => RunRover(inputFile), Throws.InstanceOf<FileNotFoundException>());
+        }
+
         private string RunRover(string inputFile)
         {
             string[] fileContents = File.ReadAllLines(inputFile);

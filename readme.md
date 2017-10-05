@@ -1,6 +1,6 @@
 # Mars Rover
 
-## A small codebase to demonstrate how I think about solving coding problems. 
+## A small codebase to demonstrate how I approach coding problems. 
 
 The Mars Rover accepts instructions as a text file in a specific format. The Rover prints out its final state when it is finished processing the input from the file. Its state consists of its coordinates the direction it is facing.
 

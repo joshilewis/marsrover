@@ -28,21 +28,26 @@ namespace Specs
             Assert.That(() => new Rover(inputFile).Run(), Throws.InstanceOf<FileNotFoundException>());
         }
 
-        [TestCase("MoveEastOfBounds.txt", typeof(RoverOutOfBoundsException), "East", TestName = "MoveEastOfBounds")]
-        [TestCase("MoveWestOfBounds.txt", typeof(RoverOutOfBoundsException), "West", TestName = "MoveWestOfBounds")]
-        [TestCase("MoveNorthOfBounds.txt", typeof(RoverOutOfBoundsException), "North", TestName = "MoveNorthOfBounds")]
-        [TestCase("MoveSouthOfBounds.txt", typeof(RoverOutOfBoundsException), "South", TestName = "MoveSouthOfBounds")]
+        [TestCase("MoveEastOfBounds.txt", "East", TestName = "MoveEastOfBounds")]
+        [TestCase("MoveWestOfBounds.txt", "West", TestName = "MoveWestOfBounds")]
+        [TestCase("MoveNorthOfBounds.txt", "North", TestName = "MoveNorthOfBounds")]
+        [TestCase("MoveSouthOfBounds.txt", "South", TestName = "MoveSouthOfBounds")]
+        public void MoveOutOfBounds(string inputFile, string message)
+        {
+            Assert.That(() => new Rover(inputFile).Run(), Throws.InstanceOf(typeof(RoverOutOfBoundsException))
+                .With.Message.EqualTo(message));
+        }
+
         [TestCase("StartingEastOfBounds.txt", typeof(RoverOutOfBoundsException), "East", TestName = "StartingEastOfBounds")]
         [TestCase("StartingNorthOfBounds.txt", typeof(RoverOutOfBoundsException), "North", TestName = "StartingNorthOfBounds")]
         [TestCase("InvalidStartingDirection.txt", typeof(ArgumentException), "Invalid starting direction: X", TestName = "InvalidStartingDirection")]
         [TestCase("InvalidCommand.txt", typeof(ArgumentException), "Invalid command: X", TestName = "InvalidCommand")]
         [TestCase("NegativeStartingX.txt", typeof(ArgumentException), "Negative starting X", TestName = "NegativeStartingX")]
         [TestCase("NegativeStartingY.txt", typeof(ArgumentException), "Negative starting Y", TestName = "NegativeStartingY")]
-        public void OutOfBounds(string inputFile, Type exceptionType, string message)
+        public void FileProblems(string inputFile, Type exceptionType, string message)
         {
             Assert.That(() => new Rover(inputFile).Run(), Throws.InstanceOf(exceptionType)
                 .With.Message.EqualTo(message));
         }
-
     }
 }

@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Specs
 {
     [TestFixture]
-    public class FileSpecs
+    public class FileSpecs : RoverSpec
     {
 
         [TestCase("this file doesn't exist.txt", "The specified file can't be found", TestName = "Non existent file")]
@@ -16,9 +16,9 @@ namespace Specs
         [TestCase("NegativeStartingX.txt", "Negative starting X", TestName = "NegativeStartingX")]
         [TestCase("NegativeStartingY.txt", "Negative starting Y", TestName = "NegativeStartingY")]
         [TestCase("InvalidCommand.txt", "Invalid command: X", TestName = "InvalidCommand")]
-        public void CompareRoverToSpec(string inputFile, string expectedOutput)
+        public void VerifyFileSpecs(string inputFile, string expectedOutput)
         {
-            Assert.That(new Rover(inputFile).Run(), Is.EqualTo(expectedOutput));
+            CompareRoverToSpec(inputFile, expectedOutput);
         }
 
     }

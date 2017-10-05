@@ -11,16 +11,16 @@ using NUnit.Framework.Constraints;
 namespace Specs
 {
     [TestFixture]
-    public class MovingSpecs
+    public class MovingSpecs : RoverSpec
     {
         [TestCase("RealWorld1.txt", "3 3 S", TestName = "RealWorld1")]
         [TestCase("MoveEastOfBounds.txt", "Rover would move East out of the zone", TestName = "MoveEastOfBounds")]
         [TestCase("MoveWestOfBounds.txt", "Rover would move West out of the zone", TestName = "MoveWestOfBounds")]
         [TestCase("MoveNorthOfBounds.txt", "Rover would move North out of the zone", TestName = "MoveNorthOfBounds")]
         [TestCase("MoveSouthOfBounds.txt", "Rover would move South out of the zone", TestName = "MoveSouthOfBounds")]
-        public void MoveOutOfBounds(string inputFile, string expectedOutput)
+        public void VerifyMovingSpec(string inputFile, string expectedOutput)
         {
-            Assert.That(new Rover(inputFile).Run(), Is.EqualTo(expectedOutput));
+            CompareRoverToSpec(inputFile, expectedOutput);
         }
     }
 }

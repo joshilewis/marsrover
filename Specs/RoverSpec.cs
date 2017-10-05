@@ -1,4 +1,5 @@
 ﻿using Console;
+using Model;
 using NUnit.Framework;
 
 namespace Specs

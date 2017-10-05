@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace Console
+namespace Model
 {
     public class RoverFileReader
     {

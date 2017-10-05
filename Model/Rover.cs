@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
-namespace Console
+namespace Model
 {
     public class Rover
     {
-        private readonly string inputFile;
         private readonly RoverFileReader fileReader;
         private int maxX;
         private int maxY;
@@ -82,7 +80,6 @@ namespace Console
                     break;
                 case 'M':
                     MoveRover();
-
                     break;
             }
         }

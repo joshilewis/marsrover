@@ -92,6 +92,10 @@
       <Project>{460380e9-ac9f-455e-8883-081439e92160}</Project>
       <Name>Console</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{0E1D51DA-3DE6-4859-9F52-B2AEE5FB76C0}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

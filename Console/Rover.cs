@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace Console
 {
     public class Rover
     {
         private readonly string inputFile;
+        private readonly RoverFileReader fileReader;
         private int maxX;
         private int maxY;
         private string commands;
@@ -15,12 +14,12 @@ namespace Console
 
         public Rover(string inputFile)
         {
-            this.inputFile = inputFile;
+            fileReader = new RoverFileReader(inputFile);
         }
 
         public string Run()
         {
-            InitialiseFromFile();
+            ReadFileAndInitialise();
 
             foreach (char command in commands)
             {
@@ -30,42 +29,13 @@ namespace Console
             return $"{state.X} {state.Y} {state.Direction}";
         }
 
-        private void InitialiseFromFile()
+        private void ReadFileAndInitialise()
         {
-            string[] fileContents = File.ReadAllLines(inputFile);
-            InitialiseZoneBoundaries(fileContents[0]);
-            InitialiseStartingState(fileContents[1]);
-            commands = fileContents[2];
-        }
-
-        private void InitialiseZoneBoundaries(string zoneString)
-        {
-            string[] zoneSizeContents = zoneString
-                .Split(' ')
-                .ToArray();
-            maxX = int.Parse(zoneSizeContents[0]);
-            maxY = int.Parse(zoneSizeContents[1]);
-        }
-
-        private void InitialiseStartingState(string stateString)
-        {
-            string[] startingStateContents = stateString
-                .Split(' ')
-                .ToArray();
-
-            var startingX = int.Parse(startingStateContents[0]);
-            if (startingX < 0) throw new ArgumentException("Negative starting X");
-            if (startingX == maxX) throw new RoverOutOfBoundsException("East");
-
-            var startingY = int.Parse(startingStateContents[1]);
-            if (startingY < 0) throw new ArgumentException("Negative starting Y");
-            if (startingY == maxY) throw new RoverOutOfBoundsException("North");
-
-            string startingDirection = startingStateContents[2];
-            if (!new[] {"N", "E", "S", "W"}.Contains(startingDirection))
-                throw new ArgumentException("Invalid starting direction: " + startingDirection);
-
-            state = new RoverState(startingX, startingY, startingDirection);
+            fileReader.ReadFile();
+            maxX = fileReader.MaxX;
+            maxY = fileReader.MaxY;
+            commands = fileReader.Commands;
+            state = fileReader.StartingState;
         }
 
         private void ProcessCommand(char command)
@@ -98,5 +68,4 @@ namespace Console
             state = next;
         }
     }
-
 }

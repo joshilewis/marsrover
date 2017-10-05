@@ -50,7 +50,7 @@ namespace Console
 
             string startingDirection = startingStateContents[2];
             if (!new[] { "N", "E", "S", "W" }.Contains(startingDirection))
-                throw new ArgumentException("Invalid starting direction: " + startingDirection);
+                throw new InvalidStartingDirectionException(startingDirection);
 
             StartingState = new RoverState(startingX, startingY, startingDirection);
         }

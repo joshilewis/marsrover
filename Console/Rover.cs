@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Console
 {
@@ -19,7 +20,26 @@ namespace Console
 
         public string Run()
         {
-            ReadFileAndInitialise();
+            try
+            {
+                ReadFileAndInitialise();
+            }
+            catch (RoverOutOfBoundsException roobe)
+            {
+                return $"Rover would start {roobe.Message} of zone";
+            }
+            catch (InvalidStartingDirectionException isde)
+            {
+                return $"Invalid starting direction: {isde.Message}";
+            }
+            catch (ArgumentException ae)
+            {
+                return ae.Message;
+            }
+            catch (FileNotFoundException)
+            {
+                return "The specified file can't be found";
+            }
 
             foreach (char command in commands)
             {
@@ -30,6 +50,10 @@ namespace Console
                 catch (RoverOutOfBoundsException roobe)
                 {
                     return $"Rover would move {roobe.Message} out of the zone";
+                }
+                catch (ArgumentException ae)
+                {
+                    return ae.Message;
                 }
             }
 

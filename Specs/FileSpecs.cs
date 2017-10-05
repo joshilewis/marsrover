@@ -8,23 +8,18 @@ namespace Specs
     [TestFixture]
     public class FileSpecs
     {
-        [TestCase("StartingEastOfBounds.txt", typeof(RoverOutOfBoundsException), "East", TestName = "StartingEastOfBounds")]
-        [TestCase("StartingNorthOfBounds.txt", typeof(RoverOutOfBoundsException), "North", TestName = "StartingNorthOfBounds")]
-        [TestCase("InvalidStartingDirection.txt", typeof(ArgumentException), "Invalid starting direction: X", TestName = "InvalidStartingDirection")]
-        [TestCase("InvalidCommand.txt", typeof(ArgumentException), "Invalid command: X", TestName = "InvalidCommand")]
-        [TestCase("NegativeStartingX.txt", typeof(ArgumentException), "Negative starting X", TestName = "NegativeStartingX")]
-        [TestCase("NegativeStartingY.txt", typeof(ArgumentException), "Negative starting Y", TestName = "NegativeStartingY")]
-        public void FileProblems(string inputFile, Type exceptionType, string message)
+
+        [TestCase("this file doesn't exist.txt", "The specified file can't be found", TestName = "Non existent file")]
+        [TestCase("StartingEastOfBounds.txt", "Rover would start East of zone", TestName = "StartingEastOfBounds")]
+        [TestCase("StartingNorthOfBounds.txt", "Rover would start North of zone", TestName = "StartingNorthOfBounds")]
+        [TestCase("InvalidStartingDirection.txt", "Invalid starting direction: X", TestName = "InvalidStartingDirection")]
+        [TestCase("NegativeStartingX.txt", "Negative starting X", TestName = "NegativeStartingX")]
+        [TestCase("NegativeStartingY.txt", "Negative starting Y", TestName = "NegativeStartingY")]
+        [TestCase("InvalidCommand.txt", "Invalid command: X", TestName = "InvalidCommand")]
+        public void CompareRoverToSpec(string inputFile, string expectedOutput)
         {
-            Assert.That(() => new Rover(inputFile).Run(), Throws.InstanceOf(exceptionType)
-                .With.Message.EqualTo(message));
+            Assert.That(new Rover(inputFile).Run(), Is.EqualTo(expectedOutput));
         }
 
-        [Test]
-        public void FileDoesntExist()
-        {
-            var inputFile = "this file doesn't exist.txt";
-            Assert.That(() => new Rover(inputFile).Run(), Throws.InstanceOf<FileNotFoundException>());
-        }
     }
 }

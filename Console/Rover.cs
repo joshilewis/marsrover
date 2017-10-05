@@ -23,7 +23,14 @@ namespace Console
 
             foreach (char command in commands)
             {
-                ProcessCommand(command);
+                try
+                {
+                    ProcessCommand(command);
+                }
+                catch (RoverOutOfBoundsException roobe)
+                {
+                    return $"Rover would move {roobe.Message} out of the zone";
+                }
             }
 
             return $"{state.X} {state.Y} {state.Direction}";

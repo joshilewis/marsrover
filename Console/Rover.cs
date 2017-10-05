@@ -7,29 +7,11 @@ namespace Console
 {
     public class Rover
     {
-        private readonly Dictionary<string, string> rMapping = new Dictionary<string, string>()
-        {
-            { "N", "E" },
-            { "E", "S" },
-            { "S", "W" },
-            { "W", "N" },
-        };
-
-        private readonly Dictionary<string, string> lMapping = new Dictionary<string, string>()
-        {
-            { "N", "W" },
-            { "E", "N" },
-            { "S", "E" },
-            { "W", "S" },
-        };
-
         private readonly string inputFile;
         private int maxX;
         private int maxY;
-        private int currentX;
-        private int currentY;
-        private string currentDirection;
         private string commands;
+        private RoverState state;
 
         public Rover(string inputFile)
         {
@@ -45,14 +27,14 @@ namespace Console
                 ProcessCommand(command);
             }
 
-            return $"{currentX} {currentY} {currentDirection}";
+            return $"{state.X} {state.Y} {state.Direction}";
         }
 
         private void InitialiseFromFile()
         {
             string[] fileContents = File.ReadAllLines(inputFile);
             InitialiseZoneBoundaries(fileContents[0]);
-            InitialiseCurrentState(fileContents[1]);
+            InitialiseStartingState(fileContents[1]);
             commands = fileContents[2];
         }
 
@@ -65,23 +47,25 @@ namespace Console
             maxY = int.Parse(zoneSizeContents[1]);
         }
 
-        private void InitialiseCurrentState(string stateString)
+        private void InitialiseStartingState(string stateString)
         {
-            string[] currentStateContents = stateString
+            string[] startingStateContents = stateString
                 .Split(' ')
                 .ToArray();
 
-            currentX = int.Parse(currentStateContents[0]);
-            if (currentX < 0) throw new ArgumentException("Negative starting X");
-            if (currentX == maxX) throw new RoverOutOfBoundsException("East");
+            var startingX = int.Parse(startingStateContents[0]);
+            if (startingX < 0) throw new ArgumentException("Negative starting X");
+            if (startingX == maxX) throw new RoverOutOfBoundsException("East");
 
-            currentY = int.Parse(currentStateContents[1]);
-            if (currentY < 0) throw new ArgumentException("Negative starting Y");
-            if (currentY == maxY) throw new RoverOutOfBoundsException("North");
+            var startingY = int.Parse(startingStateContents[1]);
+            if (startingY < 0) throw new ArgumentException("Negative starting Y");
+            if (startingY == maxY) throw new RoverOutOfBoundsException("North");
 
-            currentDirection = currentStateContents[2];
-            if (!new[] { "N", "E", "S", "W" }.Contains(currentDirection))
-                throw new ArgumentException("Invalid starting direction: " + currentDirection);
+            string startingDirection = startingStateContents[2];
+            if (!new[] {"N", "E", "S", "W"}.Contains(startingDirection))
+                throw new ArgumentException("Invalid starting direction: " + startingDirection);
+
+            state = new RoverState(startingX, startingY, startingDirection);
         }
 
         private void ProcessCommand(char command)
@@ -90,10 +74,10 @@ namespace Console
             {
                 default: throw new ArgumentException("Invalid command: " + command);
                 case 'R':
-                    currentDirection = rMapping[currentDirection];
+                    state = state.TurnRight();
                     break;
                 case 'L':
-                    currentDirection = lMapping[currentDirection];
+                    state = state.TurnLeft();
                     break;
                 case 'M':
                     MoveRover();
@@ -104,26 +88,15 @@ namespace Console
 
         private void MoveRover()
         {
-            switch (currentDirection)
-            {
-                case "N":
-                    if (currentY == maxY - 1) throw new RoverOutOfBoundsException("North");
-                    currentY++;
-                    break;
-                case "E":
-                    if (currentX == maxX - 1) throw new RoverOutOfBoundsException("East");
-                    currentX++;
-                    break;
-                case "S":
-                    if (currentY == 0) throw new RoverOutOfBoundsException("South");
-                    currentY--;
-                    break;
-                case "W":
-                    if (currentX == 0) throw new RoverOutOfBoundsException("West");
-                    currentX--;
-                    break;
-            }
-        }
+            RoverState next = state.CalculateNextPosition();
 
+            if (next.Y == maxY) throw new RoverOutOfBoundsException("North");
+            if (next.X == maxX) throw new RoverOutOfBoundsException("East");
+            if (next.Y < 0) throw new RoverOutOfBoundsException("South");
+            if (next.X < 0) throw new RoverOutOfBoundsException("West");
+
+            state = next;
+        }
     }
+
 }

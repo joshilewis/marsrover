@@ -22,7 +22,7 @@ The specifications for the Rover are split into two categories: File Specificati
 The file specifications describe how the Rover should respond to issues with the input file. The following cases are covered:  
 
 **Scenario**|**Input File Contents**|**Expected Output**  
----|---|---
+---|---|---  
 Non-existent File|\<invalid filename>|The specified file can't be found
 Starting East of zone|8 8<br>8 2 E<br>M|Rover would start East of zone
 Starting North of zone|8 8<br>1 8 E<br>M|Rover would start North of zone
@@ -33,8 +33,9 @@ Invalid Command|8 8<br>1 2 E<br>MMLMRXMRRMML|Invalid Command: X
 
 ##### Movement Specifications
 The movement specifications describe the outcome of the Rover's journey based on the instructions in the input file. The following cases are covered:  
+
 **Scenario**|**Input File Contents**|**Expected Output**  
----|---|---
+---|---|---  
 Move East of zone|1 1<br>0 0 E<br>M|Rover would move East out of the zone
 Move North of zone|1 1<br>0 0 N<br>M|Rover would move North out of the zone
 Move South of zone|1 1<br>0 0 S<br>M|Rover would move South out of the zone

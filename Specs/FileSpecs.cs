@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Console;
 using NUnit.Framework;
 
 namespace Specs

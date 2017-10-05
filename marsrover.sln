@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specs", "Specs\Specs.csproj", "{5DFA63CF-1A20-499C-8C2C-34DA8C688407}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "Console\Console.csproj", "{460380E9-AC9F-455E-8883-081439E92160}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rover", "Rover\Rover.csproj", "{460380E9-AC9F-455E-8883-081439E92160}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{0E1D51DA-3DE6-4859-9F52-B2AEE5FB76C0}"
 EndProject

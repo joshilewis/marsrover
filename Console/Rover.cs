@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Console
 {
-    public class RoverRunner
+    public class Rover
     {
         private readonly Dictionary<string, string> rMapping = new Dictionary<string, string>()
         {
@@ -31,14 +31,14 @@ namespace Console
         private string currentDirection;
         private string commands;
 
-        public RoverRunner(string inputFile)
+        public Rover(string inputFile)
         {
             this.inputFile = inputFile;
         }
 
         public string Run()
         {
-            Initialise();
+            InitialiseFromFile();
 
             foreach (char command in commands)
             {
@@ -46,6 +46,42 @@ namespace Console
             }
 
             return $"{currentX} {currentY} {currentDirection}";
+        }
+
+        private void InitialiseFromFile()
+        {
+            string[] fileContents = File.ReadAllLines(inputFile);
+            InitialiseZoneBoundaries(fileContents[0]);
+            InitialiseCurrentState(fileContents[1]);
+            commands = fileContents[2];
+        }
+
+        private void InitialiseZoneBoundaries(string zoneString)
+        {
+            string[] zoneSizeContents = zoneString
+                .Split(' ')
+                .ToArray();
+            maxX = int.Parse(zoneSizeContents[0]);
+            maxY = int.Parse(zoneSizeContents[1]);
+        }
+
+        private void InitialiseCurrentState(string stateString)
+        {
+            string[] currentStateContents = stateString
+                .Split(' ')
+                .ToArray();
+
+            currentX = int.Parse(currentStateContents[0]);
+            if (currentX < 0) throw new ArgumentException("Negative starting X");
+            if (currentX == maxX) throw new RoverOutOfBoundsException("East");
+
+            currentY = int.Parse(currentStateContents[1]);
+            if (currentY < 0) throw new ArgumentException("Negative starting Y");
+            if (currentY == maxY) throw new RoverOutOfBoundsException("North");
+
+            currentDirection = currentStateContents[2];
+            if (!new[] { "N", "E", "S", "W" }.Contains(currentDirection))
+                throw new ArgumentException("Invalid starting direction: " + currentDirection);
         }
 
         private void ProcessCommand(char command)
@@ -89,33 +125,5 @@ namespace Console
             }
         }
 
-        private void Initialise()
-        {
-            string[] fileContents = File.ReadAllLines(inputFile);
-
-            string[] zoneSizeContents = fileContents[0]
-                .Split(' ')
-                .ToArray();
-            maxX = int.Parse(zoneSizeContents[0]);
-            maxY = int.Parse(zoneSizeContents[1]);
-
-            string[] currentStateContents = fileContents[1]
-                .Split(' ')
-                .ToArray();
-
-            currentX = int.Parse(currentStateContents[0]);
-            if (currentX < 0) throw new ArgumentException("Negative starting X");
-            if (currentX == maxX) throw new RoverOutOfBoundsException("East");
-
-            currentY = int.Parse(currentStateContents[1]);
-            if (currentY < 0) throw new ArgumentException("Negative starting Y");
-            if (currentY == maxY) throw new RoverOutOfBoundsException("North");
-
-            currentDirection = currentStateContents[2];
-            if (!new[] {"N", "E", "S", "W"}.Contains(currentDirection))
-                throw new ArgumentException("Invalid starting direction: " + currentDirection);
-
-            commands = fileContents[2];
-        }
     }
 }

@@ -18,14 +18,14 @@ namespace Specs
         {
             var inputFile = "RealWorld1.txt";
             var expected = "3 3 S";
-            Assert.That(new RoverRunner(inputFile).Run(), Is.EqualTo(expected));
+            Assert.That(new Rover(inputFile).Run(), Is.EqualTo(expected));
         }
 
         [Test]
         public void FileDoesntExist()
         {
             var inputFile = "this file doesn't exist.txt";
-            Assert.That(() => new RoverRunner(inputFile).Run(), Throws.InstanceOf<FileNotFoundException>());
+            Assert.That(() => new Rover(inputFile).Run(), Throws.InstanceOf<FileNotFoundException>());
         }
 
         [TestCase("MoveEastOfBounds.txt", typeof(RoverOutOfBoundsException), "East", TestName = "MoveEastOfBounds")]
@@ -40,7 +40,7 @@ namespace Specs
         [TestCase("NegativeStartingY.txt", typeof(ArgumentException), "Negative starting Y", TestName = "NegativeStartingY")]
         public void OutOfBounds(string inputFile, Type exceptionType, string message)
         {
-            Assert.That(() => new RoverRunner(inputFile).Run(), Throws.InstanceOf(exceptionType)
+            Assert.That(() => new Rover(inputFile).Run(), Throws.InstanceOf(exceptionType)
                 .With.Message.EqualTo(message));
         }
 

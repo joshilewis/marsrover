@@ -4,7 +4,7 @@
 
 The Mars Rover accepts instructions as a text file in a specific format. The Rover prints out its final state when it is finished processing the input from the file. Its state consists of its coordinates the direction it is facing.
 
-### Execution
+### How to run
 To execute, run `rover.exe` from the command line. You will be asked to type in the name of the input file (including path). If there are any issues with the input file the Rover will tell you. If the Rover encounters any problems while processing the instructions in the input file, it will yell you. If all goes well, the Rover will tell you where it ends up and in what direction it is facing.
 
 ### Approach
@@ -20,13 +20,13 @@ The approach taken uses Behaviour-Driven Development and Specification with Exam
  ### Notes
   * There are no specs or tests for components at a lower level than `Rover`
   * I was able to remodel the system, as described in `4.` above, *without modifying the specs*. I could make any change I wished with the safety net of knowing I had not changed externally observable behaviour.
-  * I use a tool called [NCrunch]() which continuously compiles my code and executes my executable specs *while I type*. This provides an incredibly fast feedback loop about whether the system satisfies the specs. This feedback is on the order of seconds.
+  * I use a tool called [NCrunch](http://www.ncrunch.net/) which continuously compiles my code and executes my executable specs *while I type*. This provides an incredibly fast feedback loop about whether the system satisfies the specs. This feedback is on the order of seconds.
   * I deliberately focused on achieving functional correctness and conformance to spec *before* focusing on design. In my experience developers jump to solution designs far too quickly. They make long-lasting decisions at the beginning of the journey, when they know the least about the problem and the solution. Thus these decisions are based on many assumptions. Most of the assumptions will be proven untrue at some point, we're just not sure when. I also believe most developers over emphasize 'good design'. In my experience, it is better to keep things as simple as possible for as long as possible, and let designs emerge over time. This is enabled by the BDD approach described above: regardless of the design of the system, it can be guaranteed at any and every point that the system works as expected. This allows a lot of freedom to experiment and evolve the system design.
   * I considered using either the State Pattern or Strategy Pattern to encapsulate direction changes and movements. For this particular problem either of these Patterns would be overkill, and would introduce more complexity and cognitive load than they would reduce. In real-world scenarios with similar problems, one of these Patterns would be appropriate.
   * One of the trade-offs I made was to decide which element was responsible for calculating whether the rover had moved out of the zone. Tihs is a trade-off because it involves 2 pieces of information, the rover's current state, and the size of the zone. I decided to expose `RoverState.X`, `RoverState.Y` and `RoverState.Direction`, and let `Rover` [do the out-of-zone calculations](https://github.com/joshilewis/marsrover/blob/31acef11934401f3a2852e8b97f404dd8c060258/Console/Rover.cs#L93-L96) as I consider this a 'cleaner' design than exposing `RoverState` to the zone size.
   * Initially I used the term 'bounds'. I subsequently used 'zones', which is used in the original problem description. There is a large amount of code which still uses 'bounds'. This should be changed soon.
 
-#### Specifications
+### Specifications
 All specifications of expected Rover behaviour consist of 3 parts:
  * Name: A short name of the scenario
  * Input file: A sample input file (and contents) which represents the scenario
@@ -34,7 +34,7 @@ All specifications of expected Rover behaviour consist of 3 parts:
 
 The specifications for the Rover are split into two categories: File Specifications and Movement Specifications. 
 
-##### File Specifications
+#### File Specifications
 The file specifications describe how the Rover should respond to issues with the input file. The following cases are covered:  
 
 **Scenario**|**Input File Contents**|**Expected Output**  
@@ -47,7 +47,7 @@ Negative starting X|8 8<br>-1 2 E<br>M|Negative starting X
 Negative starting Y|8 8<br>1 -2 E<br>M|Negative starting Y
 Invalid Command|8 8<br>1 2 E<br>MMLMRXMRRMML|Invalid Command: X
 
-##### Movement Specifications
+#### Movement Specifications
 The movement specifications describe the outcome of the Rover's journey based on the instructions in the input file. The following cases are covered:  
 
 **Scenario**|**Input File Contents**|**Expected Output**  
